@@ -1,0 +1,108 @@
+.mobileHeader {
+   display: none;
+}
+
+.cardDetails {
+   margin: 50px auto; 
+   @include flex(row, center, center);
+   max-width: 70%;
+   padding: 20px;
+   border-radius: 25px;
+   border: 10px solid rgb(33, 91, 195);
+   background: #89b4fd;
+
+
+   h2 {
+      @extend .flex;
+      align-items: center;
+   }
+
+   h2, h3 {
+      color: white;
+   }
+}
+
+.detailsImg {
+   flex-grow: 1;
+   min-width: 200px;
+   margin-bottom: 20px;
+}
+
+.typeHolder {
+   width: 30px;
+}
+
+.detailsContent {
+   max-width: 70%;
+   margin-left: 5%;
+   flex-grow: 1;
+   // border: 1px solid blue;
+//    @include flex(row, center, space-between);
+}
+
+.cardDetails .detailsContainer {
+   @extend .flex;
+   justify-content: space-between;
+  flex-grow:1;
+   margin-bottom: 15px;
+}
+
+.cardInfo{
+    @include flex(row, center, flex-start);  
+    margin-bottom: 20px;
+    color: $text;
+    text-transform: uppercase;
+}
+.cardLabel{
+    margin-right: 20px;
+}
+
+.addButton {
+   @extend .button;
+   width: 100%;
+   font-size: 2rem;
+   min-width: 175px;
+   background: white;
+}
+
+.details {
+   @include flex(row, center, flex-start);
+   margin-bottom: 15px;
+}
+
+.details .costContainer {
+   @include flex(row, center, flex-start)
+}
+
+.attackContainer .detailsContainer {
+   margin-bottom: 5px;
+}
+
+@media (max-width: 740px) {
+   .cardDetails {
+      flex-direction: column;
+   }
+
+   .detailsContent {
+      margin-left: 0;
+   }
+}
+
+@media (max-width: 600px) {
+   .detailsContainer .header {
+      display: none;
+   }
+
+   .mobileHeader {
+      display: block;
+   }
+
+   .cardDetails,
+   .detailsContent {
+      max-width: 100%;
+   }
+
+   .cardDetails {
+      margin-left: 10%;
+   }
+}

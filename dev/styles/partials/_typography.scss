@@ -1,0 +1,71 @@
+html {
+    font-size: 62.5%; /* makes font 10px */
+    font-family: $primaryFont;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p{
+    margin: 0;
+}
+
+/* 2.4rems = base font size ✕ 2.4 */
+h1 {
+    font-size: 4rem; /* equivalent of 24px */
+    margin: 20px 0;
+}
+
+/* 2rems = base font size ✕ 2 */
+h2 {
+    font-size: 2rem; /* equivalent of 20px */
+}
+
+h3 {
+    font-size: 1.6rem; /* equivalent of 20px */
+}
+
+h4 {
+    font-size: 2rem; /* equivalent of 20px */
+}
+
+h5 {
+    font-size: 1.6rem; /* equivalent of 20px */
+}
+
+/* 1.6rems = base font size ✕ 1.6 */
+p {
+    font-size: 1.2rem; /* equivalent of 16px */
+    display: inline-block;
+    line-height: 10px;
+    line-height: 1.4;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+    // padding: 10px 20px;
+    // border-radius: 5px;
+    &:visited {
+        color: black;
+    }
+}
+
+span {
+   color: $secondary;
+   font-style: italic;
+   font-size: 1.4rem;
+   font-weight: 500;
+}
+
+@media (max-width: 450px) {
+    h1 {
+        font-size: 3rem;
+    }
+}
+
+form label, form select ,form button {
+    font-size: 1.6rem;
+}
