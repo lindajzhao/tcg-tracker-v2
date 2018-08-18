@@ -9,9 +9,9 @@
 ## Installation
 - Requires Node.JS
 
-`git clone __` 
+`git clone https://github.com/lindajzhao/tcg-tracker-v2.git` 
 
-`cd __`
+`cd https://github.com/lindajzhao`
 
 `npm install`
 

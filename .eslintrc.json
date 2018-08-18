@@ -1,0 +1,24 @@
+{
+    "extends": "airbnb",
+    "globals": {
+        "window": true,
+        "document": true,
+        "firebase": true
+    },
+    "rules": {
+        "no-debugger": 1,
+        "no-trailing-spaces": 1,
+        "max-len": [
+            "error",
+            {
+                "code": 250
+            }
+        ],
+        "react/destructuring-assignment": 0,
+        "react/jsx-filename-extension": 0,
+        "react/no-array-index-key": 0,
+        "react/no-unused-state": 0,
+        "react/prop-types": 0,
+        "semi": 1
+    }
+}
