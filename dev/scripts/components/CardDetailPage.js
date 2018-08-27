@@ -3,6 +3,7 @@ import axios from 'axios';
 import { API_URLS } from '../config';
 import NavBar from './NavBar';
 
+const firebaseService = window.firebase;
 class CardDetailPage extends React.Component {
   constructor() {
     super();
@@ -21,13 +22,11 @@ class CardDetailPage extends React.Component {
     this.collectionCheck = this.collectionCheck.bind(this);
     this.removeFromDeck = this.removeFromDeck.bind(this);
     this.loadCollection = this.loadCollection.bind(this);
-    this.firebase = window.firebase;
   }
 
   componentDidMount() {
     // have user's firebase information logged in state
-    console.log('FIREBASE?', firebase);
-    this.firebase.auth().onAuthStateChanged((user) => {
+    firebaseService.auth().onAuthStateChanged((user) => {
       this.setState({ user }, () => this.loadCollection());
     });
   }
@@ -43,7 +42,7 @@ class CardDetailPage extends React.Component {
         loggedIn: true,
       });
 
-      const dbRefUser = this.firebase.database().ref(`users/${this.firebase.auth().currentUser.uid}`);
+      const dbRefUser = firebaseService.database().ref(`users/${firebaseService.auth().currentUser.uid}`);
       dbRefUser.on('value', (snapshot) => {
         const cardArray = [];
         const selectedCard = snapshot.val();
@@ -94,14 +93,14 @@ class CardDetailPage extends React.Component {
     const thisCard = this.state.cardInfo;
     const duplicateCard = deck.find(item => thisCard.id === item.cardDetails.id);
     const removeId = duplicateCard.key;
-    this.firebase.database().ref(`users/${this.firebase.auth().currentUser.uid}/${removeId}`).remove();
+    firebaseService.database().ref(`users/${firebaseService.auth().currentUser.uid}/${removeId}`).remove();
 
     this.setState({ inCollection: false });
   }
 
 
   addToDeck() {
-    const dbRefUser = this.firebase.database().ref(`users/${this.firebase.auth().currentUser.uid}`);
+    const dbRefUser = firebaseService.database().ref(`users/${firebaseService.auth().currentUser.uid}`);
 
     // We want to check if the card already exists in firebase so it doesn't add again
     // Check the value of the current database
