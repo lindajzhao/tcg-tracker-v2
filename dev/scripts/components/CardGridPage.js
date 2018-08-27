@@ -186,15 +186,14 @@ class CardGridPage extends React.Component {
             </form>
             <div className="displayCards">
               {
-                                this.state.loadedCards
-                                  ? cardSet.map(card => (
-                                    <Link key={card.id} to={{ pathname: `/franchises/pokemon/${card.id}`, state: { card } }}>
-                                      <SingleCard data={card} key={card.id} />
-                                    </Link>
-                                  ))
-                                  : null
-                            }
-
+                this.state.loadedCards
+                  ? cardSet.map(card => (
+                    <Link key={card.id} to={{ pathname: `/franchises/pokemon/${card.id}`, state: { card } }}>
+                      <SingleCard data={card} key={card.id} />
+                    </Link>
+                  ))
+                  : null
+              }
             </div>
 
             <button className="load" onClick={this.loadMoreCards}>Load More</button>

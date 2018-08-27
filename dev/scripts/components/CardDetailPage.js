@@ -3,7 +3,6 @@ import axios from 'axios';
 import { API_URLS } from '../config';
 import NavBar from './NavBar';
 
-const firebaseService = window.firebase;
 class CardDetailPage extends React.Component {
   constructor() {
     super();
@@ -17,6 +16,7 @@ class CardDetailPage extends React.Component {
       loggedIn: false,
     };
 
+    this.firebase = window.firebase;
     this.getCardInfo = this.getCardInfo.bind(this);
     this.addToDeck = this.addToDeck.bind(this);
     this.collectionCheck = this.collectionCheck.bind(this);
@@ -26,7 +26,7 @@ class CardDetailPage extends React.Component {
 
   componentDidMount() {
     // have user's firebase information logged in state
-    firebaseService.auth().onAuthStateChanged((user) => {
+    this.firebase.auth().onAuthStateChanged((user) => {
       this.setState({ user }, () => this.loadCollection());
     });
   }
@@ -42,7 +42,7 @@ class CardDetailPage extends React.Component {
         loggedIn: true,
       });
 
-      const dbRefUser = firebaseService.database().ref(`users/${firebaseService.auth().currentUser.uid}`);
+      const dbRefUser = this.firebase.database().ref(`users/${this.firebase.auth().currentUser.uid}`);
       dbRefUser.on('value', (snapshot) => {
         const cardArray = [];
         const selectedCard = snapshot.val();
@@ -64,7 +64,6 @@ class CardDetailPage extends React.Component {
   }
 
   getCardInfo() {
-    console.log('getCardInfo `${API_URLS.POKEMON_API_URL}/cards/${this.state.cardId}`', `${API_URLS.POKEMON_API_URL}/cards/${this.state.cardId}`);
     axios
       .get(`${API_URLS.POKEMON_API_URL}/cards/${this.state.cardId}`)
       .then((res) => {
@@ -93,14 +92,14 @@ class CardDetailPage extends React.Component {
     const thisCard = this.state.cardInfo;
     const duplicateCard = deck.find(item => thisCard.id === item.cardDetails.id);
     const removeId = duplicateCard.key;
-    firebaseService.database().ref(`users/${firebaseService.auth().currentUser.uid}/${removeId}`).remove();
+    this.firebase.database().ref(`users/${this.firebase.auth().currentUser.uid}/${removeId}`).remove();
 
     this.setState({ inCollection: false });
   }
 
 
   addToDeck() {
-    const dbRefUser = firebaseService.database().ref(`users/${firebaseService.auth().currentUser.uid}`);
+    const dbRefUser = this.firebase.database().ref(`users/${this.firebase.auth().currentUser.uid}`);
 
     // We want to check if the card already exists in firebase so it doesn't add again
     // Check the value of the current database

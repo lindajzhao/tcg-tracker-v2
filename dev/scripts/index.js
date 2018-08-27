@@ -2,13 +2,13 @@ import React from 'react';
 import { render } from 'react-dom';
 import Router from './components/Router';
 import { FIREBASE_CONFIG } from './config';
-// import * as firebaseUtils from './utils/firebase';
-
 
 // Initialize Firebase
 class Index extends React.Component {
   constructor() {
     super();
+
+    // TODO-REDUX: Draw from redux `store`
     this.state = {
       loggedIn: false,
       user: {},
@@ -17,10 +17,7 @@ class Index extends React.Component {
     this.firebase = window.firebase;
     this.firebase.initializeApp(FIREBASE_CONFIG);
 
-    // this.emailSignIn = firebaseUtils.emailSignIn.bind(this);
-    // this.signOutUser = firebaseUtils.signOutUser.bind(this);
-    // this.googleSignIn = firebaseUtils.googleSignIn.bind(this);
-
+    // TODO-REDUX: Draw from redux `store`
     this.firebase.auth().onAuthStateChanged((user) => {
       this.setState({
         loggedIn: !!(user),
