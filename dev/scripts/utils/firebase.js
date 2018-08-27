@@ -30,7 +30,7 @@ export const signOutUser = () => {
   });
 
   // BUG: trying to setState on NavBars on all pages (including those not mounted)
-  // TODO: Have only 1 instance of NavBar at the top level
+  // TODO: Have only 1 instance of NavBar at the top level ?
   this.setState({
     user: {},
     loggedIn: false,

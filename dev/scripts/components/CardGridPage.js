@@ -105,7 +105,6 @@ class CardGridPage extends React.Component {
   }
 
   render() {
-    // JavaScript Lives here!!
     // make the dataset (current state) into a variable
     // if cards are filtered, display the filteredCards. if no filters, display full list
     let cardSet;
