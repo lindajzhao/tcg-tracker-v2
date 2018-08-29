@@ -16,17 +16,16 @@ class CardDetailPage extends React.Component {
       loggedIn: false,
     };
 
+    this.firebase = window.firebase;
     this.getCardInfo = this.getCardInfo.bind(this);
     this.addToDeck = this.addToDeck.bind(this);
     this.collectionCheck = this.collectionCheck.bind(this);
     this.removeFromDeck = this.removeFromDeck.bind(this);
     this.loadCollection = this.loadCollection.bind(this);
-    this.firebase = window.firebase;
   }
 
   componentDidMount() {
     // have user's firebase information logged in state
-    console.log('FIREBASE?', firebase);
     this.firebase.auth().onAuthStateChanged((user) => {
       this.setState({ user }, () => this.loadCollection());
     });
@@ -65,7 +64,6 @@ class CardDetailPage extends React.Component {
   }
 
   getCardInfo() {
-    console.log('getCardInfo `${API_URLS.POKEMON_API_URL}/cards/${this.state.cardId}`', `${API_URLS.POKEMON_API_URL}/cards/${this.state.cardId}`);
     axios
       .get(`${API_URLS.POKEMON_API_URL}/cards/${this.state.cardId}`)
       .then((res) => {

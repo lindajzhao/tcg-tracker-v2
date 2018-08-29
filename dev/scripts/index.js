@@ -4,105 +4,27 @@ import Router from './components/Router';
 import { FIREBASE_CONFIG } from './config';
 
 // Initialize Firebase
-firebase.initializeApp(FIREBASE_CONFIG);
-
 class Index extends React.Component {
   constructor() {
     super();
+
+    // TODO-REDUX: Draw from redux `store`
     this.state = {
       loggedIn: false,
       user: {},
-      loginEmail: '',
-      loginPassword: '',
-      usersDeck: [],
     };
 
-    this.logInUser = this.logInUser.bind(this);
-    this.signOutUser = this.signOutUser.bind(this);
-    this.googleSignIn = this.googleSignIn.bind(this);
+    this.firebase = window.firebase;
+    this.firebase.initializeApp(FIREBASE_CONFIG);
+
+    // TODO-REDUX: Draw from redux `store`
+    this.firebase.auth().onAuthStateChanged((user) => {
+      this.setState({
+        loggedIn: !!(user),
+        user,
+      })
+    })
   }
-
-  logInUser(event) {
-    event.preventDefault();
-    const email = this.state.loginEmail;
-    const password = this.state.loginPassword;
-    firebase.auth().signInWithEmailAndPassword(email, password)
-      .then((res) => {
-        // close modal after login
-        this.setState({
-          showLogin: false,
-        });
-      }), (error) => {
-      console.warn(error);
-    };
-  }
-
-  googleSignIn() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-
-    provider.setCustomParameters({
-      prompt: 'select_account',
-    });
-
-    firebase.auth().signInWithPopup(provider)
-      .then((user) => {
-        console.warn('user has logged in', user);
-      }), (error) => {
-        window.alert(error);
-    };
-  }
-
-  signOutUser() {
-    firebase.auth().signOut().then((res) => {
-    }, (error) => {
-      console.warn(error);
-    });
-
-    this.setState({
-      user: {},
-      loggedIn: false,
-    });
-  }
-
-  componentDidMount() {
-    firebase.auth().onAuthStateChanged((res) => {
-      if (res) {
-        this.setState({
-          loggedIn: true,
-          user: res,
-        }, () => {
-        });
-        // code below grabs the user's event objects (userEvents) and array of ids where they are hosts for (userHostEvents) and sets it in state. It will be passed down to dashboard.
-        // const dbref = firebase.database().ref(`/Users/${res.uid}/events`);
-        // dbref.on('value', (snapshot) => {
-
-        //     const eventsData = snapshot.val();
-        //     const copyOfDB = [];
-        //     const hostedEvents = [];
-        //     for (let key in eventsData) {
-        //         eventsData[key].key = key;
-        //         copyOfDB.push(eventsData[key]);
-        //     }
-        //     for (let key in eventsData) {
-        //         eventsData[key].key = key;
-        //         if (eventsData[key].isHost === true) {
-        //             hostedEvents.push(eventsData[key].key);
-        //         }
-        //     }
-        //     this.setState({
-        //         userEvents: copyOfDB,
-        //         userHostEvents: hostedEvents
-        //     });
-        // });
-      } else {
-        this.setState({
-          loggedIn: false,
-          user: res,
-        });
-      }
-    });
-  }
-
 
   render() {
     return (

@@ -13,11 +13,14 @@ class MyDeck extends React.Component {
       loadedCards: false,
       user: {},
     };
+
+    this.firebase = window.firebase;
     this.getCardDeck = this.getCardDeck.bind(this);
   }
 
   componentDidMount() {
-    firebase.auth().onAuthStateChanged((user) => {
+    // TODO-REDUX: Draw from redux `store`
+    this.firebase.auth().onAuthStateChanged((user) => {
       user
         ? this.setState({
           user,
@@ -29,7 +32,7 @@ class MyDeck extends React.Component {
   }
 
   getCardDeck() {
-    const dbRefUser = firebase.database().ref(`users/${firebase.auth().currentUser.uid}`);
+    const dbRefUser = this.firebase.database().ref(`users/${this.firebase.auth().currentUser.uid}`);
     dbRefUser.on('value', (snapshot) => {
       const cardArray = [];
       const selectedCard = snapshot.val();
@@ -59,15 +62,14 @@ class MyDeck extends React.Component {
             <h1>This Is Your Deck:</h1>
             <div className="displayCards">
               {
-                                this.state.loadedCards
-                                  ? cardSet.map(card => (
-                                    <Link key={card.cardDetails.id} to={`/franchises/pokemon/${card.cardDetails.id}`}>
-                                      <SingleCard data={card.cardDetails.info} key={card.cardDetails.id} />
-                                    </Link>
-                                  ))
-                                  : <p>Sign and Build Your Own Deck!</p>
-                            }
-
+                this.state.loadedCards
+                  ? cardSet.map(card => (
+                    <Link key={card.cardDetails.id} to={`/franchises/pokemon/${card.cardDetails.id}`}>
+                      <SingleCard data={card.cardDetails.info} key={card.cardDetails.id} />
+                    </Link>
+                  ))
+                  : <p>Sign and Build Your Own Deck!</p>
+              }
             </div>
           </div>
         </main>

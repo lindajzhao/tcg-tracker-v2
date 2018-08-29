@@ -6,16 +6,7 @@ import CardGridPage from './CardGridPage';
 import CardDetailPage from './CardDetailPage';
 import MyDeck from './MyDeck';
 
-
 class Router extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      userLoggedIn: false,
-      userObject: {},
-    };
-  }
-
   render() {
     return (
       <HashRouter history={BrowserHistory}>
