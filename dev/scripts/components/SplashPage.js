@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FaAngleRight } from "react-icons/fa";
 
 class SplashPage extends React.Component {
   render() {
@@ -18,7 +19,7 @@ class SplashPage extends React.Component {
           <div className="appEntry">
             <h4>pick a franchise & start collecting!</h4>
             <Link to="/franchises">
-              <h2>enter <i className="fas fa-caret-right" /></h2>
+              <h2>enter <FaAngleRight className="angleIcon"/></h2>
             </Link>
           </div>
         </div>
