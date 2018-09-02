@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import Router from './components/Router';
 import { FIREBASE_CONFIG } from './config';
+import Store from './store';
 
 // Initialize Firebase
 class Index extends React.Component {
@@ -19,6 +20,15 @@ class Index extends React.Component {
 
     // TODO-REDUX: Draw from redux `store`
     this.firebase.auth().onAuthStateChanged((user) => {
+      // Push to redux store
+      const action = {
+        type : "test_event",
+        payload: {
+          loggedIn: !!(user),
+          user,
+        }
+      }
+      Store.dispatch(action);
       this.setState({
         loggedIn: !!(user),
         user,
