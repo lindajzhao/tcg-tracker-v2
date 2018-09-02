@@ -21,18 +21,14 @@ class Index extends React.Component {
     // TODO-REDUX: Draw from redux `store`
     this.firebase.auth().onAuthStateChanged((user) => {
       // Push to redux store
-      const action = {
-        type : "test_event",
+      const userUpdate = {
+        type : "user_change",
         payload: {
           loggedIn: !!(user),
           user,
         }
       }
-      Store.dispatch(action);
-      this.setState({
-        loggedIn: !!(user),
-        user,
-      })
+      Store.dispatch(userUpdate);
     })
   }
 
