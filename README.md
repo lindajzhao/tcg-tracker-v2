@@ -3,15 +3,16 @@
 - TCG Card Tracker v1 was created with:
     - Natasha Teng
     - Ferdinand Ismael
+    - Linda Zhao
 - Hackeryou React Boilerplate
 - Pokemon Card API
 
 ## Installation
 - Requires Node.JS
 
-`git clone https://github.com/lindajzhao/tcg-tracker-v2.git` 
+`git clone https://github.com/FunBeans/tcg-tracker-v2.git` 
 
-`cd https://github.com/lindajzhao`
+`cd tcg-tracker-v2`
 
 `npm install`
 
