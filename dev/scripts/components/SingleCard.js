@@ -1,9 +1,13 @@
 import React from 'react';
+import CardImage from './CardImage';
 
 const SingleCard = props => (
   <div className="SingleCard">
     <h3>{props.data.name}</h3>
-    <img src={props.data.imageUrl} alt={props.data.name} />
+    <CardImage
+      imageUrl={props.data.imageUrl}
+      name={props.data.name}
+    />
   </div>
 );
 
