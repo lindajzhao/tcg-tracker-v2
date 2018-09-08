@@ -4,6 +4,7 @@ import axios from 'axios';
 import { API_URLS } from '../config';
 import NavBar from './NavBar';
 import SingleCard from './SingleCard';
+import Emblem from './Emblem';
 
 // This component will query the pokemon API and get all cards in the Basic set
 // Display the image for each card in JSX

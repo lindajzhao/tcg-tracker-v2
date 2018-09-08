@@ -12,6 +12,8 @@ p{
     margin: 0;
 }
 
+// TODO: Use (BEM?) classes instead of nested selectors
+
 /* 2.4rems = base font size ✕ 2.4 */
 h1 {
     font-size: 4rem; /* equivalent of 24px */
@@ -23,7 +25,7 @@ h2 {
     font-size: 2rem; /* equivalent of 20px */
 }
 
-h3 {
+h3, .t__detailheading {
     font-size: 1.6rem; /* equivalent of 20px */
 }
 
@@ -36,7 +38,7 @@ h5 {
 }
 
 /* 1.6rems = base font size ✕ 1.6 */
-p {
+p, .t__primary {
     font-size: 1.2rem; /* equivalent of 16px */
     display: inline-block;
     line-height: 10px;
@@ -53,7 +55,7 @@ a {
     }
 }
 
-span {
+span, .t__subheading {
    color: $secondary;
    font-style: italic;
    font-size: 1.4rem;

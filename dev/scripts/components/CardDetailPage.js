@@ -2,6 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import { API_URLS } from '../config';
 import NavBar from './NavBar';
+import CardImage from './CardImage';
+import AttackDetails from './AttackDetails';
 
 class CardDetailPage extends React.Component {
   constructor() {
@@ -76,15 +78,9 @@ class CardDetailPage extends React.Component {
     const deck = this.state.cardCollection;
     const thisCard = this.state.cardInfo;
     const duplicateCard = deck.find(item => thisCard.id === item.cardDetails.id);
-    if (duplicateCard === undefined) {
-      this.setState({
-        inCollection: false,
-      });
-    } else {
-      this.setState({
-        inCollection: true,
-      });
-    }
+    this.setState({
+      inCollection: !!(duplicateCard),
+    });
   }
 
   removeFromDeck() {
@@ -137,7 +133,7 @@ class CardDetailPage extends React.Component {
 
   render() {
     // TODO: BUG: Cannot access this page from "My Deck" route
-    console.log('PROPS __', this.props);
+
     const {
       ability, attacks, hp, name, types, weaknesses, imageUrl, rarity, supertype, text, nationalPokedexNumber,
     } = this.props.location.state.card;
@@ -153,7 +149,10 @@ class CardDetailPage extends React.Component {
                   <span>{supertype}</span>
                 </h2>
               </div>
-              <img src={imageUrl} alt={`a picture of ${name}`} />
+              <CardImage
+                imageUrl={imageUrl}
+                name={name}
+              ></CardImage>
             </aside>
 
             <section className="detailsContent">
@@ -162,107 +161,75 @@ class CardDetailPage extends React.Component {
                   {name}
                 </h2>
                 {
-                           supertype === 'Pokémon' ? (
-                             <h2>
-                              HP
-                               {hp}
-                               <div className="typeHolder">
-                                 <img src={`../../../images/${types}.png`} alt={`an emblem of the type ${types}`} />
-                               </div>
-                             </h2>
-                           ) : null
-                        }
+                  supertype === 'Pokémon' ? (
+                    <h2>
+                    HP {hp}
+                      <div className="typeHolder">
+                        <img src={`../../../images/${types}.png`} alt={`an emblem of the type ${types}`} />
+                      </div>
+                    </h2>
+                  ) : null
+                }
               </div>
 
               {
-                        supertype === 'Pokémon' ? attacks.map(
-                          (attack, i) => (
-                            <React.Fragment>
-                              <div className="attackContainer">
-                                <div
-                                  className="detailsContainer"
-                                  key={i}
-                                >
-                                  <h3>{attack.name}</h3>
-                                  <h2>
-                                    <span>{attack.damage}</span>
-                                  </h2>
-                                </div>
-                                <div className="detailsContainer">
-                                  <p>{attack.text}</p>
-                                </div>
-                                <div className="details">
-                                  <h3>Cost</h3>
-                                  <div className="costContainer">
-                                    {attack.cost
-                                      ? attack.cost.map((cost, i) => (
-                                        <div
-                                          className="typeHolder"
-                                          key={i}
-                                        >
-                                          <img
-                                            src={`../../../images/${cost}.png`}
-                                            alt={`an emblem of the type ${types}`}
-                                          />
-                                        </div>
-                                      ))
-                                      : null}
-                                  </div>
-                                </div>
-                              </div>
-                            </React.Fragment>
-                          ),
-                        ) : null
-                     }
+                supertype === 'Pokémon' ? attacks.map(
+                  (attack, i) => (
+                    <AttackDetails 
+                      attack={ attack }
+                      i={ i }
+                    />
+                  ),
+                ) : null
+              }
 
               {
-                        supertype === 'Pokémon'
-                          ? (
-                            <div className="details">
-                              <h3>Pokedex Number</h3>
-                              <span>{nationalPokedexNumber}</span>
-                            </div>
-                          )
-                          : null
-                     }
+                supertype === 'Pokémon'
+                  ? (
+                    <div className="details">
+                      <h3>Pokedex Number</h3>
+                      <span>{nationalPokedexNumber}</span>
+                    </div>
+                  )
+                  : null
+              }
 
               {
-                        supertype === 'Trainer'
-                          ? (
-                            <div className="detailsContainer">
-                              <p>{text}</p>
-                            </div>
-                          )
-                          : null
-                     }
+                supertype === 'Trainer'
+                  ? (
+                    <div className="detailsContainer">
+                      <p>{text}</p>
+                    </div>
+                  )
+                  : null
+              }
 
               <div className="details">
                 <h3>rarity</h3>
                 <span>{rarity}</span>
               </div>
-
               {
-                        this.state.loggedIn
-                          ? (
-                            <div className="detailsContainer">
-                              {
-                                 this.state.inCollection
-                                   ? (
-                                     <button className="addButton" onClick={this.removeFromDeck}>
-                                       Remove
-                                     </button>
-                                   )
+              this.state.loggedIn
+                ? (
+                  <div className="detailsContainer">
+                    {
+                      this.state.inCollection
+                        ? (
+                          <button className="addButton" onClick={this.removeFromDeck}>
+                            Remove
+                          </button>
+                        )
 
-                                   : (
-                                     <button className="addButton" onClick={this.addToDeck}>
-                                       Add to Deck
-                                     </button>
-                                   )
-                              }
-                            </div>
-                          )
-                          : null
-                     }
+                        : (
+                          <button className="addButton" onClick={this.addToDeck}>
+                            Add to Deck
+                          </button>
+                        )
+                    }
+                  </div>
+                )
+                : null
+              }
             </section>
           </main>
         </div>
