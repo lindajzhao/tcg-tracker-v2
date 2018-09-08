@@ -36,7 +36,9 @@ class CardGridPage extends React.Component {
   componentDidMount() {
     this.setState({ page: 1 });
     if (Store.getState().allCardsInSet.length){
-      console.log("Cards are in Redux", Store.getState());
+      this.setState({
+        allCardsInSet : Store.getState().allCardsInSet
+      });
     }
     else{
       this.loadCards(this.state.page, this.state.set);
@@ -198,13 +200,13 @@ class CardGridPage extends React.Component {
             </form>
             <div className="displayCards">
               {
-                this.state.loadedCards
+                this.state.allCardsInSet.length
                   ? cardSet.map(card => (
                     <Link key={card.id} to={{ pathname: `/franchises/pokemon/${card.id}`, state: { card } }}>
                       <SingleCard data={card} key={card.id} />
                     </Link>
                   ))
-                  : null
+                  : <h2>No Cards were Loaded</h2>
               }
             </div>
 
