@@ -70,7 +70,7 @@ class CardGridPage extends React.Component {
       const allCards = {
         type: "set_cards",
         payload:{
-          allCardsInSet: res.data.cards,
+          allCardsInSet: [...this.state.allCardsInSet, ...res.data.cards],
           loadedCards: true,
         }
       }
@@ -79,7 +79,7 @@ class CardGridPage extends React.Component {
         loadedCards: true,
       });
       Store.dispatch(allCards);
-      // console.log(Store.getState());
+      console.log("storing cards to redux");
     });
   }
 
@@ -87,7 +87,6 @@ class CardGridPage extends React.Component {
     const newpage = this.state.page += 1;
     this.setState({ page: newpage });
     this.loadCards(this.state.page, this.state.set);
-    console.trace(Store.getState(), "second set");
   }
 
   filterCard(e) {

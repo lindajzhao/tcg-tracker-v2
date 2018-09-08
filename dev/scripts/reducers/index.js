@@ -3,7 +3,8 @@ export default (state, action) => {
     return Object.assign({}, state, action.payload);
   }
   else if (action.type === "set_cards") {
-    console.log(action.payload, "Reducers");
+    
+    localStorage.setItem("test", JSON.stringify(action.payload));
     return Object.assign({}, state, action.payload);
   }
   return state;

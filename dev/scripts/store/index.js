@@ -1,12 +1,16 @@
 import reducer from '../reducers/index';
 import { createStore } from 'redux';
 
-const initialState = {
+let initialState = {
     loggedIn: false,
     user: {},
     allCardsInSet: []
-    //TO-DO: Put things in Local Storage in Redux
 };
+
+if (localStorage.getItem('test')){
+    const cache = localStorage.getItem('test');
+    initialState.allCardsInSet = JSON.parse(cache);
+}
 
 const Store = createStore(reducer, initialState);
 
