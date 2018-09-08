@@ -187,13 +187,13 @@ class CardGridPage extends React.Component {
             </form>
             <div className="displayCards">
               {
-                this.state.loadedCards
+                cardSet.length
                   ? cardSet.map(card => (
                     <Link key={card.id} to={{ pathname: `/franchises/pokemon/${card.id}`, state: { card } }}>
                       <SingleCard data={card} key={card.id} />
                     </Link>
                   ))
-                  : null
+                  : <h2>Sorry! No cards were loaded from this set. Please try again.</h2>
               }
             </div>
 
