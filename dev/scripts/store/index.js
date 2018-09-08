@@ -23,11 +23,16 @@ import { createStore } from 'redux';
 //   pokemon:sunmoon <string>: [cardInfo<object>, ... ],
 // }               
 
-
 let initialState = {
     loggedIn: false,
     user: {},
+    allCardsInSet: []
 };
+
+if (localStorage.getItem('test')){
+    const cache = localStorage.getItem('test');
+    initialState.allCardsInSet = JSON.parse(cache);
+}
 
 const Store = createStore(reducer, initialState);
 
