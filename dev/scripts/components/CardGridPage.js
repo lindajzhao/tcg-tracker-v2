@@ -5,6 +5,7 @@ import { API_URLS } from '../config';
 import NavBar from './NavBar';
 import SingleCard from './SingleCard';
 import Emblem from './Emblem';
+import Store from "../store";
 
 // This component will query the pokemon API and get all cards in the Basic set
 // Display the image for each card in JSX
@@ -16,7 +17,6 @@ class CardGridPage extends React.Component {
     super();
     this.state = {
       allCardsInSet: [],
-      // cardName: [],
       page: 1,
       loadedCards: false,
       filteredCards: [],
@@ -35,10 +35,26 @@ class CardGridPage extends React.Component {
 
   componentDidMount() {
     this.setState({ page: 1 });
-    this.loadCards(this.state.page, this.state.set);
+    // 1. get cards into state somehow
+    // if there are cards in this set in redux(filtering going on here)
+    // this.setState({ reduxCards })
+
+    // if there aren't cards in redux already
+    // make axios call
+    // add results to redux
+
+    // recheck(?)
+    console.log(Store.getState(), "ComponentDidMount");
+    if (Store.getState().allCardsInSet.length){
+      console.log("Cards are in Redux", Store.getState());
+    }
+    else{
+      this.loadCards(this.state.page, this.state.set);
+    } 
   }
 
   loadCards(page, set) {
+    console.log("Loading Cards")
     // create the parameters and headers for axios call
 
     // make axio calls to retrive all cards in set
@@ -47,22 +63,31 @@ class CardGridPage extends React.Component {
       params: {
         setCode: set,
         page,
-        pageSize: '100',
+        pageSize: '20',
       },
     }).then((res) => {
-      const allCards = this.state.allCardsInSet.concat(res.data.cards);
-
+      console.log("Cards Loaded");
+      const allCards = {
+        type: "set_cards",
+        payload:{
+          allCardsInSet: res.data.cards,
+          loadedCards: true,
+        }
+      }
       this.setState({
-        allCardsInSet: allCards,
+        allCardsInSet: [...this.state.allCardsInSet, ...res.data.cards],
         loadedCards: true,
       });
+      Store.dispatch(allCards);
+      // console.log(Store.getState());
     });
   }
 
   loadMoreCards() {
-    const newpage = this.state.page + 1;
+    const newpage = this.state.page += 1;
     this.setState({ page: newpage });
     this.loadCards(this.state.page, this.state.set);
+    console.trace(Store.getState(), "second set");
   }
 
   filterCard(e) {
@@ -95,13 +120,13 @@ class CardGridPage extends React.Component {
   }
 
   searchBySet(e) {
-    this.setState({
-      allCardsInSet: [],
-      showFilteredCards: false,
-      filteredCards: [],
-      page: 1,
-      set: e.target.value,
-    });
+    // this.setState({
+    //   allCardsInSet: [],
+    //   showFilteredCards: false,
+    //   filteredCards: [],
+    //   page: 1,
+    //   set: e.target.value,
+    // });
     this.loadCards(this.state.page, e.target.value);
   }
 
