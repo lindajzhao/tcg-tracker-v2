@@ -5,6 +5,7 @@ import { API_URLS } from '../config';
 import NavBar from './NavBar';
 import SingleCard from './SingleCard';
 import Emblem from './Emblem';
+import Store from "../store";
 
 // This component will query the pokemon API and get all cards in the Basic set
 // Display the image for each card in JSX
@@ -16,7 +17,6 @@ class CardGridPage extends React.Component {
     super();
     this.state = {
       allCardsInSet: [],
-      // cardName: [],
       page: 1,
       loadedCards: false,
       filteredCards: [],
@@ -35,7 +35,14 @@ class CardGridPage extends React.Component {
 
   componentDidMount() {
     this.setState({ page: 1 });
-    this.loadCards(this.state.page, this.state.set);
+    if (Store.getState().allCardsInSet.length){
+      this.setState({
+        allCardsInSet : Store.getState().allCardsInSet
+      });
+    }
+    else{
+      this.loadCards(this.state.page, this.state.set);
+    } 
   }
 
   loadCards(page, set) {
@@ -47,20 +54,26 @@ class CardGridPage extends React.Component {
       params: {
         setCode: set,
         page,
-        pageSize: '100',
+        pageSize: '20',
       },
     }).then((res) => {
-      const allCards = this.state.allCardsInSet.concat(res.data.cards);
-
+      const allCards = {
+        type: "set_cards",
+        payload:{
+          allCardsInSet: [...this.state.allCardsInSet, ...res.data.cards],
+          loadedCards: true,
+        }
+      }
       this.setState({
-        allCardsInSet: allCards,
+        allCardsInSet: [...this.state.allCardsInSet, ...res.data.cards],
         loadedCards: true,
       });
+      Store.dispatch(allCards);
     });
   }
 
   loadMoreCards() {
-    const newpage = this.state.page + 1;
+    const newpage = this.state.page += 1;
     this.setState({ page: newpage });
     this.loadCards(this.state.page, this.state.set);
   }
@@ -187,13 +200,13 @@ class CardGridPage extends React.Component {
             </form>
             <div className="displayCards">
               {
-                this.state.loadedCards
+                this.state.allCardsInSet.length
                   ? cardSet.map(card => (
                     <Link key={card.id} to={{ pathname: `/franchises/pokemon/${card.id}`, state: { card } }}>
                       <SingleCard data={card} key={card.id} />
                     </Link>
                   ))
-                  : null
+                  : <h2>No Cards were Loaded</h2>
               }
             </div>
 
