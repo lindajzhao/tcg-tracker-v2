@@ -119,7 +119,6 @@ class CardGridPage extends React.Component {
         <NavBar logInUser={this.logInUser} googleSignIn={this.googleSignIn} signOutUser={this.signOutUser} />
         <main className="CardGrid">
           <div className="wrapper">
-          <h1>TESTING</h1>
             <div className="cardGridTitle">
               <img src="../../../images/logoPokemon.png" alt="Pokemon Logo" />
             </div>
