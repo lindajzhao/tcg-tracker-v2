@@ -16,10 +16,10 @@ class CardGridPage extends React.Component {
   constructor() {
     super();
     this.state = {
-      allCardsInSet: [],
+      allCardsInSet: null,
       page: 1,
       loadedCards: false,
-      filteredCards: [],
+      filteredCards: null,
       set: '',
       showFilteredCards: false,
     };
@@ -121,14 +121,44 @@ class CardGridPage extends React.Component {
   render() {
     // make the dataset (current state) into a variable
     // if cards are filtered, display the filteredCards. if no filters, display full list
-    let cardSet;
-    { this.state.showFilteredCards
-      ? cardSet = this.state.filteredCards
-      : cardSet = this.state.allCardsInSet;
-    }
 
-    let cardType = this.state.allCardsInSet.types[0];
-    console.log(cardType);
+    // set cardSet as the first truthy value
+    const cardSet = this.state.filteredCards || this.state.allCardsInSet || [];
+    
+    // Throw an error is anything goes wrong in this code blocl;
+    try {
+      if (cardSet.length) {
+        // run if carSet array contains >0 items
+        
+        // ******** TODO: Use `reduce` to iterate over each card object in the cardSet to produce an array with only UNIQUE types
+        const uniqueTypes = cardSet.reduce((acc, curr) => {
+          // Starting with accumulator = [], add the current value with each iteration
+          if (curr.types && curr.types.length) {
+            // Run if current card object has an array >0 items
+            
+            // Determine if the current type already exists in the CURRENT array
+            const alreadyExists = acc.includes((type) => type === curr.types[0])
+            // console.log(alreadyExists);
+            
+            if (!alreadyExists) {
+              // If the current type isn't already in the accumulated array, add it
+              return acc.concat(curr.types);
+            } else {
+              // If the current type IS already in teh accumulated array, do nothing (aka return the exact same array)
+              return acc;
+            }
+          } else {
+            // return the exact same array if current card object is null or has an empty array
+            return acc;
+          }
+        }, [])
+
+        // Log out the unique array
+        console.log('uniqueTypes', uniqueTypes);
+      }
+    } 
+    catch(err) { console.log('error in catch!!', err) }
+    
 
     let emblemType = ["Colorless","Lightning", "Fighting", "Grass", "Fire", "Psychic", "Fairy", "Metal", "Water"]
 
