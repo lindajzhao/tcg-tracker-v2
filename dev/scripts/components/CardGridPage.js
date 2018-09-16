@@ -127,7 +127,10 @@ class CardGridPage extends React.Component {
       : cardSet = this.state.allCardsInSet;
     }
 
-    let emblemType = ["colorless","lightning", "fighting", "grass", "fire", "psychic", "fairy", "metal", "water"]
+    let cardType = this.state.allCardsInSet.types[0];
+    console.log(cardType);
+
+    let emblemType = ["Colorless","Lightning", "Fighting", "Grass", "Fire", "Psychic", "Fairy", "Metal", "Water"]
 
     return <React.Fragment>
         <NavBar logInUser={this.logInUser} googleSignIn={this.googleSignIn} signOutUser={this.signOutUser} />
